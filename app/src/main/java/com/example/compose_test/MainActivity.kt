@@ -1,14 +1,13 @@
 package com.example.compose_test
 
+import android.graphics.fonts.FontStyle
 import android.os.Bundle
-import android.os.Message
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -17,8 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,9 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingImage(message = getString(R.string.happy_birthday_text), from = getString(
-                        R.string.from_sender_text
-                    ))
+                    TaskManager(description = "All tasks completed", compliment = "Nice Work!")
                 }
             }
         }
@@ -45,43 +43,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GreetingText(message: String, from: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.padding(8.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = message,
-            fontSize = 100.sp,
-            lineHeight = 116.sp,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = from,
-            fontSize = 36.sp,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.CenterHorizontally)
-        )
-    }
-}
-
-@Composable
-fun GreetingImage(message: String, from: String, modifier: Modifier = Modifier) {
+fun TaskManager(description: String, compliment: String, modifier: Modifier = Modifier) {
     val image = painterResource(R.drawable.androidparty)
-    Box {
+    Column(
+        verticalArrangement = Arrangement.Center,
+    ) {
+        val image = painterResource(R.drawable.ic_task_completed)
         Image(
             painter = image,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-            alpha = 0.5F,
-        )
-        GreetingText(
-            message = message,
-            from = from,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        Text(
+            text = description,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .padding(0.dp,24.dp,0.dp,8.dp)
+                .align(Alignment.CenterHorizontally),
+        )
+
+        Text (
+            text = compliment,
+            fontSize = 16.sp,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
         )
     }
 }
@@ -91,6 +80,6 @@ fun GreetingImage(message: String, from: String, modifier: Modifier = Modifier) 
 @Composable
 fun BirthdayCardPreview() {
     Compose_testTheme {
-        GreetingImage(message = "Happy Birthday Sam!", from = "From Emma")
+        TaskManager(description = "All tasks completed", compliment = "Nice Work!")
     }
 }
